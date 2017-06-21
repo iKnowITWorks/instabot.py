@@ -28,13 +28,13 @@ db = MySQLdb.connect(host=load.get('db_host'),      # your host, usually localho
 #  you execute all the queries you need
 cur = db.cursor()
 
-bot_id = sys.argv[1]
-bot_login = ""
+bot_login = sys.argv[1]
 bot_pass = ""
 
 # Get data from database
 try:
-    numrows = cur.execute("SELECT * FROM bots WHERE bot_id = %s", bot_id)
+    bot_sql = "SELECT * FROM bots WHERE login = '%s'" % bot_login
+    numrows = cur.execute(bot_sql)
     rows = cur.fetchall()
 except MySQLdb.Error, e:
     try:
@@ -206,7 +206,7 @@ if numrows > 0:
             print("Wrong mode!")
 
 else:
-    print "Bot ID '%s' NOT found." % bot_id
+    print "Bot '%s' NOT found." % bot_login
 
 cur.close()
 db.close()
